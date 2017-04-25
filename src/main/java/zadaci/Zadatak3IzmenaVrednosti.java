@@ -15,7 +15,6 @@ import java.util.List;
  */
 public class Zadatak3IzmenaVrednosti {
     static Dao<Vagon, Integer> vagonDao;
-    static Dao<Voz, Integer> vozDao;
 
     public static void main(String[] args) {
         ConnectionSource connectionSource = null;
@@ -25,7 +24,6 @@ public class Zadatak3IzmenaVrednosti {
             connectionSource = new JdbcConnectionSource("jdbc:sqlite:vozVagon.db");
 
             vagonDao = DaoManager.createDao(connectionSource, Vagon.class);
-            vozDao = DaoManager.createDao(connectionSource, Voz.class);
 
             System.out.println("-----------------");
             List<Vagon> vagoni = vagonDao.queryForAll();
