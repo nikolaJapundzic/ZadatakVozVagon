@@ -44,7 +44,7 @@ public class Zadatak2DodavanjeVrednosti {
             vagonDao.create(va3);
             Vagon va4 = new Vagon("Vagon 4", "Za spavanje",5 , v2);
             vagonDao.create(va4);
-            Vagon va5 = new Vagon("Vagon 5", "Restoran ",3 , v2);
+            Vagon va5 = new Vagon("Vagon 5", "Restoran",3 , v2);
             vagonDao.create(va5);
 
             System.out.println("-----------------");
