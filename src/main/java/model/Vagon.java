@@ -34,9 +34,12 @@ public class Vagon {
     public Vagon() {
     }
 
-    public Vagon(String opis, double nosivost) {
+    public Vagon(String oznaka, String opis, double nosivost, Voz voz) {
+        this.oznaka = oznaka;
         this.opis = opis;
         this.nosivost = nosivost;
+        this.voz = voz;
+
     }
 
     public String getOznaka() {
