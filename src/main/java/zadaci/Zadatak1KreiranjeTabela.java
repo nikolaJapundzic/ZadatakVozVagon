@@ -2,6 +2,9 @@ package zadaci;
 
 import com.j256.ormlite.jdbc.JdbcConnectionSource;
 import com.j256.ormlite.support.ConnectionSource;
+import com.j256.ormlite.table.TableUtils;
+import model.Vagon;
+import model.Voz;
 
 import java.io.IOException;
 
@@ -15,6 +18,11 @@ public class Zadatak1KreiranjeTabela {
         try{
             connectionSource = new JdbcConnectionSource("jdbc:sqlite:vozVagon.db");
 
+            TableUtils.dropTable(connectionSource, Vagon.class, true);
+            TableUtils.dropTable(connectionSource, Voz.class, true);
+
+            TableUtils.createTable(connectionSource, Voz.class);
+            TableUtils.createTable(connectionSource, Vagon.class);
 
 
         }catch (Exception e) {
