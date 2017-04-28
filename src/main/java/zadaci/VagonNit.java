@@ -28,8 +28,8 @@ public class VagonNit extends Thread{
         System.out.println("[" + oznaka + "] krece utovar vagona : [" + vagon.getOznaka() + "].");
     }
 
-    public synchronized void rad(){
-        while(vagon.getNosivost()<vagon.getTeret()){
+    public  void rad(){
+        while(vagon.getNosivost()>vagon.getTeret()){
             System.out.println("[" + oznaka + "] tovari u vagon : [" + vagon.getOznaka() + "].  Tezina je sada ["+vagon.getTeret()+"]");
             try {
                 sleep(random.nextInt(2000));
@@ -44,6 +44,7 @@ public class VagonNit extends Thread{
     }
 
     public void zavrsetak(){
+        System.out.println("[" + oznaka + "] tovari u vagon : [" + vagon.getOznaka() + "].  Tezina je sada ["+vagon.getTeret()+"]");
         System.out.println("[" + oznaka + "] zavrsen utovar vagona : [" + vagon.getOznaka() + "].");
     }
 

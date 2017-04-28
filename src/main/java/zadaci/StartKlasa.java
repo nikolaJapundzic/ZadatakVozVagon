@@ -1,7 +1,9 @@
 package zadaci;
 
+import com.j256.ormlite.dao.CloseableIterator;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
+import com.j256.ormlite.dao.ForeignCollection;
 import com.j256.ormlite.jdbc.JdbcConnectionSource;
 import com.j256.ormlite.stmt.PreparedQuery;
 import com.j256.ormlite.stmt.QueryBuilder;
@@ -11,6 +13,7 @@ import model.Vagon;
 import model.Voz;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -21,7 +24,7 @@ public class StartKlasa {
     static Dao<Voz, Integer> vozDao;
     public static void main(String[] args) {
         ConnectionSource connectionSource = null;
-        // create our data-source for the database
+
         try{
             connectionSource = new JdbcConnectionSource("jdbc:sqlite:vozVagon.db");
             vagonDao = DaoManager.createDao(connectionSource, Vagon.class);
@@ -33,27 +36,52 @@ public class StartKlasa {
                 System.out.println("[vozovi] = " + v);
             System.out.println("-----------------");
 
-// kako da pronadjem izvucem iz voz-a 1 sve vagone?
+
+            ArrayList<VagonNit> sviVagoni = new ArrayList<VagonNit>();
 
             List<Voz> zaIzlistavanje = vozDao.queryForEq(Voz.POLJE_OZNAKA, "Voz1");
             for(Voz v : zaIzlistavanje){
                 System.out.println("[vozovi] = " + v);
+                ForeignCollection<Vagon> vagoni = v.getVagon();
+                CloseableIterator<Vagon> iterator = vagoni.closeableIterator();
+
+                int i = 0;
+                try{
+                    while(iterator.hasNext()){
+                        Vagon va = iterator.next();
+                        System.out.println("vagoni = " + va);
+                        String oznaka = "vagon" + i;
+                        i++;
+                        VagonNit vag = new VagonNit(oznaka, va);
+                        sviVagoni.add(vag);
+
+                    }
+                }catch (Exception e)
+                {
+                    System.out.println("Greska prilikom iteracije");
+                }finally {
+                    iterator.close();
+                }
 
             }
 
 
-            List<Vagon> sviVagoni = vagonDao.queryForAll();
+            for(int i = 0; i < sviVagoni.size(); i++ ){
+                sviVagoni.get(i).start();
+            }
+            for(int i = 0; i < sviVagoni.size(); i++ ){
+                sviVagoni.get(i).join();
+            }
 
-            VagonNit va1 = new VagonNit("va1", sviVagoni.get(2));
-            VagonNit va2 = new VagonNit("va2", sviVagoni.get(3));
-
-            va1.start();
-            va2.start();
-
-            va1.join();
-            va2.join();
 
             System.out.println("Svi vagoni natovareni.");
+
+
+
+
+
+
+
 
 
         }catch (Exception e) {
